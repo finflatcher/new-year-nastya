@@ -139,11 +139,11 @@ function startGame2() {
                 if (index === q.correct) {
                     optionEl.classList.add('correct');
                     correctAnswers++;
-                    showCatMessage("Правильно! Ты всё помнишь! 💖");
+                    showCatMessage("Правильно! Ты всё помнишь!");
                 } else {
                     optionEl.classList.add('wrong');
                     allOptions[q.correct].classList.add('correct');
-                    showCatMessage("Ничего страшного, главное что мы вместе! 💕");
+                    showCatMessage("Ничего страшного, главное что мы вместе!");
                 }
                 
                 setTimeout(() => {
@@ -603,11 +603,10 @@ function startGame8() {
     const container = document.getElementById('game-container');
     
     const events = [
-        { id: 1, text: "Наша первая встреча", order: 1 },
-        { id: 2, text: "Первая прогулка на Хлебозавод", order: 2 },
-        { id: 3, text: "Первый поцелуй в метро", order: 3 },
-        { id: 4, text: "Первый совместный мультик", order: 4 },
-        { id: 5, text: "Сладости из Ярче вместе", order: 5 }
+        { id: 1, text: "Наша первая прогулка на Хлебозаводе", order: 1 },
+        { id: 2, text: "Наш первый совместный мультик", order: 2 },
+        { id: 3, text: "Наш первый поцелуй в метро", order: 3 },
+        { id: 4, text: "Сладости из Ярче вместе", order: 4 }
     ];
     
     const shuffledEvents = [...events].sort(() => Math.random() - 0.5);
@@ -657,7 +656,7 @@ function startGame8() {
     
     function renderOrder() {
         orderSlots.innerHTML = '';
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 4; i++) {
             const slot = document.createElement('div');
             slot.className = 'order-slot';
             slot.textContent = selectedOrder[i] ? `${i + 1}. ${selectedOrder[i].text}` : `${i + 1}. ...`;
@@ -681,7 +680,7 @@ function startGame8() {
     });
     
     document.getElementById('check-timeline').addEventListener('click', () => {
-        if (selectedOrder.length < 5) {
+        if (selectedOrder.length < 4) {
             showCatMessage("Расставь все события!");
             return;
         }
