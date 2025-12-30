@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Новым Годом, Настя! 🎄</title>
+    
+    <meta name="description" content="Новогоднее поздравление для самой лучшей Насти! 🎄❄️">
+    <meta property="og:title" content="С Новым Годом, Настя! 🎄">
+    <meta property="og:description" content="Тебя ждёт волшебное новогоднее приключение! ✨">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#722F37">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎄</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Звёздное небо -->
+    <div id="stars-container"></div>
+    
+    <!-- Гирлянды -->
+    <div id="garland-top" class="garland"></div>
+    <div id="garland-left" class="garland-vertical left"></div>
+    <div id="garland-right" class="garland-vertical right"></div>
+    
+    <!-- Снежинки -->
+    <div id="snowflakes-container"></div>
+    
+    <!-- Праздничная атрибутика -->
+    <div id="decorations"></div>
+    
+    <!-- Ёлки по бокам -->
+    <div class="side-tree left-tree">🎄</div>
+    <div class="side-tree right-tree">🎄</div>
+    
+    <!-- Искры -->
+    <div id="sparkles-container"></div>
+
+    <!-- Экран приветствия -->
+    <section id="welcome-screen" class="screen active">
+        <div class="welcome-content">
+            <div class="sparkle-border">
+                <div class="holly-decoration">🎄</div>
+                <h1 class="main-title">Дорогая Настя</h1>
+                <p class="subtitle">Тебя ждёт волшебное новогоднее приключение</p>
+                <div class="ornament">❄ ⭐ ❄</div>
+                <p class="question">Готова начать это путешествие?</p>
+                <button id="start-adventure" class="magic-btn">
+                    <span>Да, я готова!</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Экран с письмом -->
+    <section id="letter-screen" class="screen">
+        <div id="letter-envelope" class="envelope hidden">
+            <div class="envelope-back"></div>
+            <div class="envelope-front">
+                <div class="wax-seal">D</div>
+                <p class="envelope-text">Для Насти</p>
+            </div>
+            <div class="envelope-flap"></div>
+        </div>
+        
+        <div id="letter-paper" class="paper hidden">
+            <div class="paper-inner">
+                <div class="paper-front">
+                    <div class="paper-content">
+                        <h2>Моя любимая Настя!</h2>
+                        <p>Настя, спасибо тебе за то, что ты есть. С твоим появлением в моей жизни она наполнилась красками и яркими эмоциями.</p>
+                        <p>Может быть иногда я и делаю пакости, и я хочу за это попросить прощения, но я всё так же горячо люблю тебя!</p>
+                        <p>Ты делаешь каждый мой день особенным. Твоя улыбка заставляет моё сердце биться чаще, а твой смех это самая красивая мелодия на свете.</p>
+                        <p>Я благодарен судьбе за то, что она свела нас вместе. Ты не просто моя девушка, ты мой лучший друг, моя поддержка и моё вдохновение.</p>
+                        <p>Пусть этот Новый год принесёт нам ещё больше счастливых моментов вместе!</p>
+                        <p class="signature">Твой Даня ❤</p>
+                    </div>
+                </div>
+                <div class="paper-back">
+                    <div class="paper-content back-content">
+                        <h2>От Дани</h2>
+                        <div class="heart-decoration">♥</div>
+                        <p>Ты лучшее, что случилось со мной в этом году. Рядом с тобой я становлюсь лучше.</p>
+                        <p>Спасибо за каждое утро, когда я просыпаюсь с мыслями о тебе. За каждый вечер, когда мы вместе.</p>
+                        <p>Ты научила меня любить по настоящему, и я бесконечно тебе за это благодарен.</p>
+                        <p>Я люблю тебя сильнее, чем вчера, но меньше, чем завтра!</p>
+                        <div class="stars">✨ ⭐ ✨</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="letter-read-btn" class="magic-btn hidden">
+            <span>Я прочла письмо и написала Дане</span>
+        </button>
+        <p id="flip-hint" class="flip-hint hidden">Нажми на письмо, чтобы перевернуть</p>
+    </section>
+
+    <!-- Главный экран с мини-играми -->
+    <section id="main-screen" class="screen">
+        <div class="game-header">
+            <h1>Новогодний Квест</h1>
+            <p class="quest-subtitle">Пройди все испытания и открой сейф с сюрпризом!</p>
+        </div>
+        
+        <!-- Блокнот для записей -->
+        <div id="notebook-toggle" class="notebook-toggle">
+            <span>📝</span>
+        </div>
+        <div id="notebook" class="notebook hidden">
+            <div class="notebook-header">
+                <h3>Мои записки</h3>
+                <button id="notebook-close">✕</button>
+            </div>
+            <textarea id="notebook-text" placeholder="Записывай сюда части кода и заметки..."></textarea>
+        </div>
+        
+        <div class="game-path-container">
+            <svg class="path-svg" viewBox="0 0 400 1050" preserveAspectRatio="xMidYMid meet">
+                <path class="path-line" d="M200,50 C320,100 80,180 200,230 C320,280 80,360 200,410 C320,460 80,540 200,590 C320,640 80,720 200,770 C320,820 80,900 200,950" fill="none" stroke="url(#pathGradient)" stroke-width="6" stroke-linecap="round"/>
+                <defs>
+                    <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" style="stop-color:#c41e3a"/>
+                        <stop offset="50%" style="stop-color:#228b22"/>
+                        <stop offset="100%" style="stop-color:#d4af37"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            
+            <div class="game-path">
+                <div class="game-node" data-game="1" style="left: 50%; top: 30px;">
+                    <div class="node-circle">
+                        <span class="node-icon">🎄</span>
+                    </div>
+                    <span class="node-title">Ёлочные шары</span>
+                </div>
+                
+                <div class="game-node locked" data-game="2" style="left: 75%; top: 130px;">
+                    <div class="node-circle">
+                        <span class="node-icon">💝</span>
+                    </div>
+                    <span class="node-title">Наши воспоминания</span>
+                </div>
+                
+                <div class="game-node locked" data-game="3" style="left: 25%; top: 230px;">
+                    <div class="node-circle">
+                        <span class="node-icon">🎁</span>
+                    </div>
+                    <span class="node-title">Подарки</span>
+                </div>
+                
+                <div class="game-node locked" data-game="4" style="left: 75%; top: 330px;">
+                    <div class="node-circle">
+                        <span class="node-icon">💌</span>
+                    </div>
+                    <span class="node-title">Слова любви</span>
+                </div>
+                
+                <div class="game-node locked" data-game="5" style="left: 25%; top: 430px;">
+                    <div class="node-circle">
+                        <span class="node-icon">⭐</span>
+                    </div>
+                    <span class="node-title">Звёздная память</span>
+                </div>
+                
+                <div class="game-node locked" data-game="6" style="left: 75%; top: 530px;">
+                    <div class="node-circle">
+                        <span class="node-icon">🔔</span>
+                    </div>
+                    <span class="node-title">Колокольчики</span>
+                </div>
+                
+                <div class="game-node locked" data-game="7" style="left: 25%; top: 630px;">
+                    <div class="node-circle">
+                        <span class="node-icon">❄</span>
+                    </div>
+                    <span class="node-title">Собери снежинку</span>
+                </div>
+                
+                <div class="game-node locked" data-game="8" style="left: 75%; top: 730px;">
+                    <div class="node-circle">
+                        <span class="node-icon">💑</span>
+                    </div>
+                    <span class="node-title">Наша история</span>
+                </div>
+                
+                <div class="safe-node locked" id="safe-node" style="left: 50%; top: 850px;">
+                    <div class="safe-icon">🔐</div>
+                    <span class="node-title">Сейф с сюрпризом</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальные окна игр -->
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div id="game-container"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно сейфа -->
+    <div id="safe-modal" class="modal">
+        <div class="modal-content safe-content">
+            <button class="close-modal">&times;</button>
+            <h2>🔐 Секретный сейф</h2>
+            <p class="safe-hint">Введи код из 8 букв, который ты собрала</p>
+            <div class="safe-lock">
+                <input type="text" id="safe-input" maxlength="8" placeholder="________">
+                <button id="open-safe-btn" class="magic-btn"><span>Открыть</span></button>
+            </div>
+            <div id="safe-result"></div>
+        </div>
+    </div>
+
+    <!-- Финальный экран -->
+    <div id="final-modal" class="modal">
+        <div class="modal-content final-content">
+            <div class="confetti-container"></div>
+            <h1>🎉 Ты открыла сейф! 🎉</h1>
+            <div class="final-message">
+                <div class="final-letter">
+                    <p>Моя дорогая, любимая Настенька!</p>
+                    <p>Ты прошла весь этот квест, и я горжусь тобой! Ты такая умничка и я безумно счастлив, что ты есть в моей жизни.</p>
+                    <p>Каждый день рядом с тобой это маленькое чудо. Ты наполняешь мою жизнь смыслом, радостью и бесконечной любовью.</p>
+                    <p>Я хочу, чтобы ты знала: что бы ни случилось, я всегда буду рядом. Буду поддерживать тебя, заботиться о тебе и любить тебя всем сердцем.</p>
+                    <p>Спасибо, что выбрала меня. Спасибо, что ты такая замечательная. Спасибо за каждую улыбку, за каждый смех, за каждое мгновение вместе.</p>
+                    <div class="gift-reveal">
+                        <p class="gift-intro">А теперь самое интересное...</p>
+                        <p class="gift-text">Тебя ждёт настоящий подарок! 🎁</p>
+                        <p>Скорее напиши мне, что ты открыла сейф! Я очень жду, чтобы рассказать тебе, какой сюрприз тебя ждёт. Это будет что-то особенное, как и ты!</p>
+                    </div>
+                    <h2>С Новым 2025 Годом, моя любовь!</h2>
+                    <p class="love-text">Люблю тебя бесконечно сильно! ❤</p>
+                    <p class="signature-final">Навсегда твой Даня</p>
+                </div>
+            </div>
+            <div class="fireworks"></div>
+        </div>
+    </div>
+
+    <!-- Помощник Карамелька -->
+    <div id="helper-cat">
+        <div class="cat-body">
+            <div class="cat-ears">
+                <div class="ear left"></div>
+                <div class="ear right"></div>
+            </div>
+            <div class="cat-face">
+                <div class="cat-eyes">
+                    <div class="eye left"></div>
+                    <div class="eye right"></div>
+                </div>
+                <div class="cat-nose"></div>
+                <div class="cat-mouth"></div>
+                <div class="cat-whiskers left"></div>
+                <div class="cat-whiskers right"></div>
+            </div>
+        </div>
+        <div class="cat-hat">🎅</div>
+        <div class="cat-bubble" id="cat-bubble">
+            <p id="cat-message">Привет! Я Карамелька! Нажми на меня, и я тебе что-нибудь скажу! 🐱</p>
+        </div>
+    </div>
+
+    <script src="games.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
