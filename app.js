@@ -10,6 +10,96 @@ document.addEventListener('DOMContentLoaded', () => {
     initNotebook();
 });
 
+// Письма для почтового ящика
+const mailLetters = [
+    {
+        id: 1,
+        title: "Письмо с любовью",
+        content: `<h3>💕 Моя любимая!</h3>
+            <p>Ты знаешь, я так счастлив, что ты есть в моей жизни.</p>
+            <p>Каждый раз, когда я вижу тебя, моё сердце начинает биться быстрее.</p>
+            <p>Спасибо, что ты такая замечательная!</p>
+            <p style="margin-top: 15px;">Твой Даня 💖</p>`,
+        read: false
+    },
+    {
+        id: 2,
+        title: "Письмо с благодарностью",
+        content: `<h3>🌟 Спасибо тебе!</h3>
+            <p>Спасибо за твою улыбку, которая освещает мой день.</p>
+            <p>Спасибо за твой смех, который делает меня счастливым.</p>
+            <p>Спасибо за то, что ты просто есть рядом.</p>
+            <p style="margin-top: 15px;">Люблю тебя! 💕</p>`,
+        read: false
+    },
+    {
+        id: 3,
+        title: "Письмо с мечтами",
+        content: `<h3>✨ Наши мечты</h3>
+            <p>Я мечтаю о том, как мы будем вместе...</p>
+            <p>Гулять под звёздами, смотреть любимые фильмы, просто быть рядом.</p>
+            <p>С тобой любая мечта кажется реальной!</p>
+            <p style="margin-top: 15px;">Навсегда твой 🌙</p>`,
+        read: false
+    },
+    {
+        id: 4,
+        title: "Письмо с комплиментами",
+        content: `<h3>💝 Ты прекрасна!</h3>
+            <p>Твои глаза сияют ярче всех звёзд на небе.</p>
+            <p>Твоя улыбка теплее солнечного луча.</p>
+            <p>Ты самая красивая девушка на свете!</p>
+            <p style="margin-top: 15px;">Обожаю тебя! 🌹</p>`,
+        read: false
+    },
+    {
+        id: 5,
+        title: "Письмо с обещанием",
+        content: `<h3>💍 Моё обещание</h3>
+            <p>Обещаю всегда быть рядом с тобой.</p>
+            <p>Обещаю заботиться о тебе и любить тебя.</p>
+            <p>Обещаю делать тебя счастливой каждый день!</p>
+            <p style="margin-top: 15px;">Твой и только твой 💑</p>`,
+        read: false
+    }
+];
+
+// Фразы Карамельки
+const catMessages = {
+    general: [
+        "С Новым Годом, Настенька! 🎄",
+        "Ты самая лучшая! 💖",
+        "У тебя всё получится! ⭐",
+        "Верю в тебя! 🌟",
+        "Ты умничка! 😊",
+        "Люблю тебя! ❤️",
+        "Пусть этот год будет счастливым! 🎉",
+        "Ты прекрасна! 💕",
+        "Мур-мур! 🐱",
+        "Ты справишься! 💪",
+        "Счастья тебе! 🎊",
+        "Ты моя звёздочка! ⭐",
+        "Обнимаю! 🤗",
+        "Ты лучший подарок! 🎁",
+        "Не забудь записать код! 📝",
+        "Карамелька тебя любит! 🧡",
+        "Ты такая милая! 🥰",
+        "Удачи в прохождении! 🍀",
+        "Я рядом, если что! 😸",
+        "Ты очень талантливая! ✨"
+    ],
+    hints: {
+        1: "Подсказка: ищи шары одинакового цвета! Они рядом не всегда 🎄",
+        2: "Подсказка: вспомни ваши первые моменты вместе 💝",
+        3: "Подсказка: просто нажимай на все подарки по очереди! 🎁",
+        4: "Подсказка: составь слово ЛЮБОВЬ для начала 💌",
+        5: "Подсказка: запоминай где какие символы! Они парами ⭐",
+        6: "Подсказка: внимательно смотри последовательность и повторяй 🔔",
+        7: "Подсказка: просто нажимай на кусочки снежинки по порядку ❄",
+        8: "Подсказка: подумай, что было раньше, а что позже 💑"
+    }
+};
+
 // Создание звёздного неба
 function createStars() {
     const container = document.getElementById('stars-container');
@@ -19,7 +109,6 @@ function createStars() {
         const star = document.createElement('div');
         star.className = 'star';
         
-        // Разные размеры звёзд
         const sizes = ['small', 'medium', 'large'];
         const sizeClass = sizes[Math.floor(Math.random() * sizes.length)];
         star.classList.add(sizeClass);
@@ -37,7 +126,6 @@ function createStars() {
 function createGarlands() {
     const colors = ['red', 'gold', 'green', 'blue', 'pink', 'orange'];
     
-    // Верхняя гирлянда
     const topGarland = document.getElementById('garland-top');
     for (let i = 0; i < 25; i++) {
         const light = document.createElement('div');
@@ -46,7 +134,6 @@ function createGarlands() {
         topGarland.appendChild(light);
     }
     
-    // Левая вертикальная гирлянда
     const leftGarland = document.getElementById('garland-left');
     for (let i = 0; i < 15; i++) {
         const light = document.createElement('div');
@@ -55,7 +142,6 @@ function createGarlands() {
         leftGarland.appendChild(light);
     }
     
-    // Правая вертикальная гирлянда
     const rightGarland = document.getElementById('garland-right');
     for (let i = 0; i < 15; i++) {
         const light = document.createElement('div');
@@ -78,15 +164,10 @@ function createSparkles() {
         
         container.appendChild(sparkle);
         
-        setTimeout(() => {
-            sparkle.remove();
-        }, 4000);
+        setTimeout(() => sparkle.remove(), 4000);
     }
     
-    // Добавляем искры периодически
     setInterval(addSparkle, 500);
-    
-    // Начальные искры
     for (let i = 0; i < 10; i++) {
         setTimeout(addSparkle, i * 200);
     }
@@ -206,17 +287,15 @@ function openEnvelope() {
         }, 500);
     }, 500);
     
-    // Переворот письма
     paper.addEventListener('click', () => {
         paper.classList.toggle('flipped');
     });
     
-    // Кнопка "Я прочла"
     readBtn.addEventListener('click', () => {
         showScreen('main-screen');
         initMainScreen();
         setTimeout(() => {
-            showCatMessage("Привет, Настенька! Я Карамелька, твой помощник! Пройди все игры, чтобы открыть сейф с сюрпризом! 🎁");
+            showCatMessage("Привет, Настенька! Я Карамелька! Пройди все игры, чтобы открыть сейф с сюрпризом! 🎁");
         }, 500);
     });
 }
@@ -228,7 +307,6 @@ function initNotebook() {
     const closeBtn = document.getElementById('notebook-close');
     const textarea = document.getElementById('notebook-text');
     
-    // Загружаем сохранённые записи
     const savedNotes = localStorage.getItem('nastya-notes');
     if (savedNotes) {
         textarea.value = savedNotes;
@@ -242,7 +320,6 @@ function initNotebook() {
         notebook.classList.add('hidden');
     });
     
-    // Сохраняем при изменении
     textarea.addEventListener('input', () => {
         localStorage.setItem('nastya-notes', textarea.value);
     });
@@ -261,6 +338,9 @@ function initMainScreen() {
         });
     });
     
+    // Почтовый ящик
+    document.getElementById('mailbox').addEventListener('click', openMailbox);
+    
     // Сейф
     document.getElementById('safe-node').addEventListener('click', () => {
         if (document.getElementById('safe-node').classList.contains('locked')) return;
@@ -276,6 +356,55 @@ function initMainScreen() {
     
     // Открытие сейфа
     document.getElementById('open-safe-btn').addEventListener('click', tryOpenSafe);
+}
+
+// Почтовый ящик
+function openMailbox() {
+    const modal = document.getElementById('mail-modal');
+    const mailList = document.getElementById('mail-list');
+    
+    mailList.innerHTML = '';
+    
+    mailLetters.forEach(letter => {
+        const mailItem = document.createElement('div');
+        mailItem.className = 'mail-item' + (letter.read ? ' read' : '');
+        mailItem.innerHTML = `
+            <span class="mail-item-icon">${letter.read ? '📭' : '💌'}</span>
+            <span class="mail-item-text">${letter.title}</span>
+        `;
+        
+        mailItem.addEventListener('click', () => {
+            letter.read = true;
+            updateMailCount();
+            openMailLetter(letter);
+        });
+        
+        mailList.appendChild(mailItem);
+    });
+    
+    modal.classList.add('active');
+}
+
+function openMailLetter(letter) {
+    document.getElementById('mail-modal').classList.remove('active');
+    
+    const modal = document.getElementById('read-mail-modal');
+    const content = document.getElementById('mail-paper-content');
+    
+    content.innerHTML = letter.content;
+    modal.classList.add('active');
+}
+
+function updateMailCount() {
+    const unread = mailLetters.filter(l => !l.read).length;
+    const countEl = document.getElementById('mail-count');
+    
+    if (unread > 0) {
+        countEl.textContent = unread;
+        countEl.style.display = 'flex';
+    } else {
+        countEl.style.display = 'none';
+    }
 }
 
 function openGame(gameNumber) {
@@ -352,35 +481,23 @@ function createFireworks() {
 // Помощник Карамелька
 function initHelperCat() {
     const cat = document.getElementById('helper-cat');
-    
-    const messages = [
-        "С Новым Годом, Настенька! 🎄",
-        "Ты самая лучшая! 💖",
-        "У тебя всё получится! ⭐",
-        "Верю в тебя! 🌟",
-        "Ты умничка! 😊",
-        "Люблю тебя! ❤️",
-        "Пусть этот год будет счастливым! 🎉",
-        "Ты прекрасна! 💕",
-        "Мур-мур! 🐱",
-        "Ты справишься! 💪",
-        "Счастья тебе! 🎊",
-        "Ты моя звёздочка! ⭐",
-        "Обнимаю! 🤗",
-        "Ты лучший подарок! 🎁",
-        "Не забудь записать код! 📝",
-        "Карамелька тебя любит! 🧡"
-    ];
+    let lastGameHint = 0;
     
     cat.addEventListener('click', () => {
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        showCatMessage(randomMessage);
+        // С шансом 30% даём подсказку по текущей игре
+        if (currentGame && currentGame <= 8 && Math.random() < 0.3 && !gamesCompleted[currentGame - 1]) {
+            showCatMessage(catMessages.hints[currentGame]);
+            lastGameHint = currentGame;
+        } else {
+            const randomMessage = catMessages.general[Math.floor(Math.random() * catMessages.general.length)];
+            showCatMessage(randomMessage);
+        }
     });
     
     // Периодические сообщения
     setInterval(() => {
         if (Math.random() > 0.75) {
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            const randomMessage = catMessages.general[Math.floor(Math.random() * catMessages.general.length)];
             showCatMessage(randomMessage);
         }
     }, 25000);
@@ -404,6 +521,11 @@ style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
+    }
+    .attempts-counter {
+        color: var(--gold);
+        font-size: 0.9rem;
+        margin-bottom: 10px;
     }
 `;
 document.head.appendChild(style);

@@ -3,10 +3,10 @@ const SECRET_CODE = 'СНЕЖИНКА';
 let currentGame = 1;
 let gamesCompleted = [false, false, false, false, false, false, false, false];
 
-// Игра 1: Найди пары ёлочных шаров
+// Игра 1: Найди пары ёлочных шаров (усложнённая - 8 пар)
 function startGame1() {
     const container = document.getElementById('game-container');
-    const colors = ['#e74c3c', '#27ae60', '#3498db', '#f39c12', '#9b59b6', '#1abc9c'];
+    const colors = ['#e74c3c', '#27ae60', '#3498db', '#f39c12', '#9b59b6', '#1abc9c', '#e91e63', '#ff5722'];
     let balls = [];
     
     colors.forEach(color => {
@@ -18,10 +18,12 @@ function startGame1() {
     
     let selectedBalls = [];
     let matchedPairs = 0;
+    let attempts = 0;
     
     container.innerHTML = `
         <h2>🎄 Найди пары ёлочных шаров</h2>
-        <p>Нажимай на шары одинакового цвета</p>
+        <p>Найди все пары одинаковых шаров!</p>
+        <p class="attempts-counter">Попытки: <span id="attempts">0</span></p>
         <div class="game-area" id="balls-area"></div>
     `;
     
@@ -37,15 +39,18 @@ function startGame1() {
         
         ballEl.addEventListener('click', () => {
             if (ballEl.classList.contains('matched') || selectedBalls.length >= 2) return;
+            if (selectedBalls.find(b => b.index === index)) return;
             
             ballEl.style.transform = 'scale(1.2)';
             ballEl.style.boxShadow = '0 0 25px ' + ball.color;
             selectedBalls.push({ el: ballEl, color: ball.color, index });
             
             if (selectedBalls.length === 2) {
+                attempts++;
+                document.getElementById('attempts').textContent = attempts;
+                
                 setTimeout(() => {
-                    if (selectedBalls[0].color === selectedBalls[1].color && 
-                        selectedBalls[0].index !== selectedBalls[1].index) {
+                    if (selectedBalls[0].color === selectedBalls[1].color) {
                         selectedBalls[0].el.classList.add('matched');
                         selectedBalls[1].el.classList.add('matched');
                         matchedPairs++;
@@ -60,7 +65,7 @@ function startGame1() {
                         });
                     }
                     selectedBalls = [];
-                }, 500);
+                }, 600);
             }
         });
         
@@ -158,16 +163,24 @@ function startGame2() {
     showQuestion();
 }
 
-// Игра 3: Открой все подарки
+// Игра 3: Открой все подарки (больше подарков)
 function startGame3() {
     const container = document.getElementById('game-container');
-    const giftColors = ['#e74c3c', '#27ae60', '#3498db', '#f39c12', '#9b59b6', '#e91e63', '#00bcd4', '#ff5722'];
-    const surprises = ['💖', '⭐', '🌟', '💝', '✨', '🎉', '💕', '🎊'];
+    const giftColors = ['#e74c3c', '#27ae60', '#3498db', '#f39c12', '#9b59b6', '#e91e63', '#00bcd4', '#ff5722', '#8bc34a', '#ff9800'];
+    const surprises = ['💖', '⭐', '🌟', '💝', '✨', '🎉', '💕', '🎊', '💫', '🌈'];
     let opened = 0;
+    let correctOrder = [];
+    let clickedOrder = [];
+    
+    // Генерируем случайный порядок открытия
+    for (let i = 0; i < giftColors.length; i++) {
+        correctOrder.push(i);
+    }
+    correctOrder = correctOrder.sort(() => Math.random() - 0.5).slice(0, 5);
     
     container.innerHTML = `
         <h2>🎁 Открой все подарки!</h2>
-        <p>Нажми на каждый подарок и узнай что внутри</p>
+        <p>Нажимай на подарки и открывай сюрпризы</p>
         <div class="game-area" id="gifts-area"></div>
     `;
     
@@ -191,8 +204,7 @@ function startGame3() {
             opened++;
             
             setTimeout(() => {
-                gift.innerHTML = surprises[index];
-                gift.style.fontSize = '2.5rem';
+                gift.innerHTML = `<span style="font-size: 2.2rem;">${surprises[index]}</span>`;
                 gift.style.animation = 'none';
                 gift.style.display = 'flex';
                 gift.style.alignItems = 'center';
@@ -208,12 +220,12 @@ function startGame3() {
     });
 }
 
-// Игра 4: Слова о любви
+// Игра 4: Слова о любви (усложнённая)
 function startGame4() {
     const container = document.getElementById('game-container');
     
-    const targetWords = ['ЛЮБОВЬ', 'НЕЖНОСТЬ', 'СЧАСТЬЕ', 'РАДОСТЬ'];
-    const allLetters = 'ЛЮБОВЬНЕЖНОСТЬСЧАЕРАДИ'.split('');
+    const targetWords = ['ЛЮБОВЬ', 'НЕЖНОСТЬ', 'СЧАСТЬЕ', 'РАДОСТЬ', 'ТЕПЛО'];
+    const allLetters = 'ЛЮБОВЬНЕЖНОСТЬСЧАЕРАДИТЕПЛ'.split('');
     
     let foundWords = [];
     let currentWord = [];
@@ -224,7 +236,7 @@ function startGame4() {
     container.innerHTML = `
         <h2>💌 Слова любви</h2>
         <p>Составь слова о любви из букв</p>
-        <p class="word-hint">Найди слова: ЛЮБОВЬ, НЕЖНОСТЬ, СЧАСТЬЕ, РАДОСТЬ</p>
+        <p class="word-hint">Найди: ЛЮБОВЬ, НЕЖНОСТЬ, СЧАСТЬЕ, РАДОСТЬ, ТЕПЛО</p>
         <div class="word-input-area" id="word-input"></div>
         <div class="word-letters" id="word-letters"></div>
         <div class="word-controls">
@@ -232,7 +244,7 @@ function startGame4() {
             <button class="word-btn" id="check-word">Проверить</button>
         </div>
         <div class="found-words">
-            <h4>Найденные слова:</h4>
+            <h4>Найденные слова</h4>
             <div class="found-words-list" id="found-list"></div>
         </div>
     `;
@@ -268,6 +280,7 @@ function startGame4() {
             const slot = document.createElement('div');
             slot.className = 'word-slot';
             slot.textContent = item.letter;
+            slot.style.borderStyle = 'solid';
             slot.addEventListener('click', () => {
                 usedIndices = usedIndices.filter(idx => idx !== item.index);
                 currentWord.splice(i, 1);
@@ -320,7 +333,7 @@ function startGame4() {
     renderLetters();
 }
 
-// Игра 5: Память со звёздами
+// Игра 5: Память со звёздами (больше карточек)
 function startGame5() {
     const container = document.getElementById('game-container');
     const symbols = ['⭐', '🌟', '✨', '💫', '🌙', '☀️', '🌈', '💎'];
@@ -336,10 +349,12 @@ function startGame5() {
     let flippedCards = [];
     let matchedPairs = 0;
     let canFlip = true;
+    let moves = 0;
     
     container.innerHTML = `
         <h2>⭐ Звёздная память</h2>
         <p>Найди все пары звёзд!</p>
+        <p class="attempts-counter">Ходы: <span id="moves">0</span></p>
         <div class="game-area" id="memory-area"></div>
     `;
     
@@ -364,6 +379,8 @@ function startGame5() {
             
             if (flippedCards.length === 2) {
                 canFlip = false;
+                moves++;
+                document.getElementById('moves').textContent = moves;
                 
                 setTimeout(() => {
                     if (flippedCards[0].symbol === flippedCards[1].symbol) {
@@ -389,14 +406,14 @@ function startGame5() {
     });
 }
 
-// Игра 6: Повтори мелодию колокольчиков
+// Игра 6: Повтори мелодию колокольчиков (усложнённая)
 function startGame6() {
     const container = document.getElementById('game-container');
-    const bells = ['🔔', '🛎️', '🎐', '🔕'];
+    const bells = ['🔔', '🛎️', '🎐', '🔕', '🎵'];
     let sequence = [];
     let playerSequence = [];
     let level = 1;
-    const maxLevel = 5;
+    const maxLevel = 6;
     let isShowingSequence = false;
     
     container.innerHTML = `
@@ -480,13 +497,13 @@ function startGame6() {
     setTimeout(showSequence, 1000);
 }
 
-// Игра 7: Зимняя мелодия (собери снежинку)
+// Игра 7: Собери снежинку (пазл)
 function startGame7() {
     const container = document.getElementById('game-container');
     
     container.innerHTML = `
-        <h2>🎵 Собери снежинку</h2>
-        <p>Перетащи части снежинки на свои места</p>
+        <h2>❄ Собери снежинку</h2>
+        <p>Перетащи части снежинки на свои места или просто нажимай на них</p>
         <div class="snowflake-puzzle">
             <div class="puzzle-target" id="puzzle-target">
                 <div class="puzzle-slot" data-slot="1"></div>
@@ -505,8 +522,8 @@ function startGame7() {
     const slots = document.querySelectorAll('.puzzle-slot');
     
     let placedPieces = 0;
+    let currentSlot = 0;
     
-    // Перемешиваем части
     const shuffledPieces = [...pieces].sort(() => Math.random() - 0.5);
     
     shuffledPieces.forEach((piece, index) => {
@@ -517,7 +534,7 @@ function startGame7() {
         pieceEl.dataset.piece = index + 1;
         
         pieceEl.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', index + 1);
+            e.dataTransfer.setData('text/plain', JSON.stringify({ index: index + 1, piece }));
             pieceEl.classList.add('dragging');
         });
         
@@ -525,14 +542,17 @@ function startGame7() {
             pieceEl.classList.remove('dragging');
         });
         
-        // Для мобильных устройств
+        // Для мобильных устройств и простоты
         pieceEl.addEventListener('click', () => {
-            const emptySlot = document.querySelector('.puzzle-slot:not(.filled)');
-            if (emptySlot && !pieceEl.classList.contains('placed')) {
+            if (pieceEl.classList.contains('placed')) return;
+            
+            const emptySlot = slots[currentSlot];
+            if (emptySlot && currentSlot < 6) {
                 emptySlot.textContent = piece;
                 emptySlot.classList.add('filled');
                 pieceEl.classList.add('placed');
                 placedPieces++;
+                currentSlot++;
                 
                 if (placedPieces === 6) {
                     setTimeout(() => completeGame(7, 'К'), 1000);
@@ -543,7 +563,7 @@ function startGame7() {
         piecesContainer.appendChild(pieceEl);
     });
     
-    slots.forEach(slot => {
+    slots.forEach((slot, slotIndex) => {
         slot.addEventListener('dragover', (e) => {
             e.preventDefault();
             slot.classList.add('drag-over');
@@ -559,24 +579,26 @@ function startGame7() {
             
             if (slot.classList.contains('filled')) return;
             
-            const pieceIndex = e.dataTransfer.getData('text/plain');
-            const pieceEl = document.querySelector(`.puzzle-piece[data-piece="${pieceIndex}"]`);
-            
-            if (pieceEl && !pieceEl.classList.contains('placed')) {
-                slot.textContent = pieceEl.textContent;
-                slot.classList.add('filled');
-                pieceEl.classList.add('placed');
-                placedPieces++;
+            try {
+                const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+                const pieceEl = document.querySelector(`.puzzle-piece[data-piece="${data.index}"]`);
                 
-                if (placedPieces === 6) {
-                    setTimeout(() => completeGame(7, 'К'), 1000);
+                if (pieceEl && !pieceEl.classList.contains('placed')) {
+                    slot.textContent = data.piece;
+                    slot.classList.add('filled');
+                    pieceEl.classList.add('placed');
+                    placedPieces++;
+                    
+                    if (placedPieces === 6) {
+                        setTimeout(() => completeGame(7, 'К'), 1000);
+                    }
                 }
-            }
+            } catch (err) {}
         });
     });
 }
 
-// Игра 8: Наша история (составь хронологию)
+// Игра 8: Наша история (хронология)
 function startGame8() {
     const container = document.getElementById('game-container');
     
@@ -597,7 +619,7 @@ function startGame8() {
         <div class="timeline-game">
             <div class="timeline-events" id="timeline-events"></div>
             <div class="timeline-order" id="timeline-order">
-                <p>Твой порядок:</p>
+                <p>Твой порядок</p>
                 <div class="order-slots" id="order-slots"></div>
             </div>
             <div class="word-controls">
@@ -690,25 +712,22 @@ function completeGame(gameNumber, codeDigit) {
     
     const container = document.getElementById('game-container');
     container.innerHTML = `
-        <h2>🎉 Молодец!</h2>
-        <p style="font-size: 1.3rem; margin: 20px 0;">Ты получаешь часть кода:</p>
-        <div style="font-size: 4rem; color: var(--gold); margin: 20px 0; text-shadow: 0 0 20px rgba(212,175,55,0.5);">${codeDigit}</div>
-        <p style="font-size: 1rem; color: var(--cream); margin-bottom: 25px;">Запиши её в блокнот! 📝</p>
+        <h2>🎉 Отлично!</h2>
+        <p style="font-size: 1.2rem; margin: 18px 0;">Ты получаешь часть кода</p>
+        <div style="font-size: 3.5rem; color: var(--gold); margin: 18px 0; text-shadow: 0 0 20px rgba(212,175,55,0.5);">${codeDigit}</div>
+        <p style="font-size: 0.95rem; color: var(--cream); margin-bottom: 22px;">Запиши её в блокнот! 📝</p>
         <button class="magic-btn" onclick="closeGameModal()"><span>Продолжить</span></button>
     `;
     
-    // Отмечаем игру как пройденную
     const node = document.querySelector(`.game-node[data-game="${gameNumber}"]`);
     node.classList.add('completed');
     
-    // Разблокируем следующую игру
     if (gameNumber < 8) {
         const nextNode = document.querySelector(`.game-node[data-game="${gameNumber + 1}"]`);
         nextNode.classList.remove('locked');
         currentGame = gameNumber + 1;
     }
     
-    // Проверяем, все ли игры пройдены
     if (gamesCompleted.every(g => g)) {
         document.getElementById('safe-node').classList.remove('locked');
         showCatMessage("Все игры пройдены! Теперь открой сейф! 🎁");
